@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import { Container } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
 import { API_URL, doApiGet, TOKEN_KEY } from "../services/apiService";
@@ -167,7 +167,7 @@ const DeviceCard = ({ device, onAddTaskClick, removeAllTasks }) => {
 const Cart = ({ tasks, removeSingleTask }) => {
   const [tokenDiscount, setTokenDiscount] = useState(0);
 
-  const safeTasks = Array.isArray(tasks) ? tasks : [];
+  const safeTasks = useMemo(() => Array.isArray(tasks) ? tasks : [], [tasks]);
 
   const calculateDiscount = useCallback(() => {
     if (localStorage[TOKEN_KEY]) {
