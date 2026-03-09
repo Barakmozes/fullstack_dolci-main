@@ -2,7 +2,14 @@
   "permissions": {
     "allow": [
       "mcp__Desktop_Commander__read_file",
-      "Bash(wc -l /c/Users/barakm/Desktop/MyProject/fullstack_dolci-main/src/**/*.js /c/Users/barakm/Desktop/MyProject/fullstack_dolci-main/src/**/*.css)"
+      "Bash(wc -l /c/Users/barakm/Desktop/MyProject/fullstack_dolci-main/src/**/*.js /c/Users/barakm/Desktop/MyProject/fullstack_dolci-main/src/**/*.css)",
+      "Bash(find \"C:/Users/barakm/Desktop/MyProject/fullstack_dolci-main/src/pages\" -type f -name \"*.js\" -exec basename {} ;)",
+      "Bash(find \"C:/Users/barakm/Desktop/MyProject/fullstack_dolci-main/src/components\" -type f -name \"*.js\" -exec basename {} ;)",
+      "Bash(find \"C:/Users/barakm/Desktop/MyProject/fullstack_dolci-main/src/admin\" -type f -name \"*.js\" -exec basename {} ;)",
+      "Bash(wc -l \"C:/Users/barakm/Desktop/MyProject/fullstack_dolci-main/src\"/**/*.js)",
+      "Bash(yarn install)",
+      "Bash(yarn install --ignore-engines)",
+      "Bash(npx next build)"
     ]
   }
 }

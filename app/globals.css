@@ -1,0 +1,207 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Dancing+Script:wght@400;500;600;700&family=Heebo:wght@300;400;500;600;700&display=swap');
+
+@layer base {
+  * {
+    @apply box-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    @apply bg-cream-100 text-chocolate-800 font-sans antialiased;
+    font-feature-settings: "kern" 1;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif text-chocolate-800;
+  }
+
+  ::selection {
+    @apply bg-gold-300/40 text-chocolate-900;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-cream-200;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gold-400 rounded-full;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-gold-500;
+  }
+
+  /* Focus styles */
+  *:focus-visible {
+    @apply outline-2 outline-offset-2 outline-gold-500 rounded-sm;
+  }
+}
+
+@layer components {
+  .section-padding {
+    @apply py-16 md:py-20 lg:py-24;
+  }
+
+  .container-custom {
+    @apply max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .heading-xl {
+    @apply text-4xl md:text-5xl lg:text-6xl font-serif font-bold tracking-tight;
+  }
+
+  .heading-lg {
+    @apply text-3xl md:text-4xl font-serif font-bold tracking-tight;
+  }
+
+  .heading-md {
+    @apply text-2xl md:text-3xl font-serif font-semibold;
+  }
+
+  .heading-sm {
+    @apply text-xl md:text-2xl font-serif font-semibold;
+  }
+
+  .text-body {
+    @apply text-base leading-relaxed text-chocolate-600;
+  }
+
+  .text-body-sm {
+    @apply text-sm leading-relaxed text-chocolate-500;
+  }
+
+  /* Card styles */
+  .card {
+    @apply bg-white rounded-2xl shadow-soft overflow-hidden transition-all duration-300;
+  }
+
+  .card:hover {
+    @apply shadow-medium -translate-y-1;
+  }
+
+  /* Button base styles */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 bg-chocolate-800 text-cream-100
+           font-sans font-medium rounded-full transition-all duration-300
+           hover:bg-chocolate-700 hover:shadow-warm active:scale-[0.98]
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3
+           bg-transparent border-2 border-chocolate-800 text-chocolate-800
+           font-sans font-medium rounded-full transition-all duration-300
+           hover:bg-chocolate-800 hover:text-cream-100 active:scale-[0.98]
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-gold {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3
+           bg-gradient-to-r from-gold-500 to-gold-600 text-white
+           font-sans font-medium rounded-full transition-all duration-300
+           hover:from-gold-600 hover:to-gold-700 hover:shadow-warm active:scale-[0.98]
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  /* Badge styles */
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 text-xs font-medium rounded-full;
+  }
+
+  .badge-new {
+    @apply badge bg-rose-100 text-rose-700;
+  }
+
+  .badge-bestseller {
+    @apply badge bg-gold-100 text-gold-700;
+  }
+
+  .badge-chefspick {
+    @apply badge bg-chocolate-100 text-chocolate-700;
+  }
+
+  .badge-limited {
+    @apply badge bg-red-100 text-red-700;
+  }
+
+  .badge-seasonal {
+    @apply badge bg-green-100 text-green-700;
+  }
+
+  /* Overlay gradient for text on images */
+  .overlay-gradient {
+    @apply absolute inset-0 bg-gradient-to-t from-chocolate-900/70 via-chocolate-900/20 to-transparent;
+  }
+
+  /* Skeleton loading */
+  .skeleton {
+    @apply animate-pulse bg-cream-300 rounded-lg;
+  }
+
+  /* Glass effect */
+  .glass {
+    @apply bg-white/80 backdrop-blur-md border border-white/20;
+  }
+
+  /* Texture overlay */
+  .texture-linen {
+    background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23C8956C' fill-opacity='0.03' fill-rule='evenodd'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E");
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .animate-in {
+    animation: fadeInUp 0.6s ease-out forwards;
+    opacity: 0;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Stagger children animations */
+  .stagger-children > * {
+    opacity: 0;
+    animation: fadeInUp 0.5s ease-out forwards;
+  }
+
+  .stagger-children > *:nth-child(1) { animation-delay: 0.05s; }
+  .stagger-children > *:nth-child(2) { animation-delay: 0.1s; }
+  .stagger-children > *:nth-child(3) { animation-delay: 0.15s; }
+  .stagger-children > *:nth-child(4) { animation-delay: 0.2s; }
+  .stagger-children > *:nth-child(5) { animation-delay: 0.25s; }
+  .stagger-children > *:nth-child(6) { animation-delay: 0.3s; }
+  .stagger-children > *:nth-child(7) { animation-delay: 0.35s; }
+  .stagger-children > *:nth-child(8) { animation-delay: 0.4s; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
