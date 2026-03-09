@@ -196,6 +196,31 @@
   .stagger-children > *:nth-child(8) { animation-delay: 0.4s; }
 }
 
+/* RTL Support */
+[dir="rtl"] {
+  font-family: 'Heebo', 'DM Sans', sans-serif;
+}
+
+[dir="rtl"] h1,
+[dir="rtl"] h2,
+[dir="rtl"] h3,
+[dir="rtl"] h4,
+[dir="rtl"] h5,
+[dir="rtl"] h6 {
+  font-family: 'Heebo', 'Playfair Display', serif;
+}
+
+[dir="rtl"] .font-script {
+  font-family: 'Heebo', 'Dancing Script', cursive;
+}
+
+[dir="rtl"] .tracking-wide,
+[dir="rtl"] .tracking-wider,
+[dir="rtl"] .tracking-[0.15em],
+[dir="rtl"] .tracking-[0.2em] {
+  letter-spacing: 0.02em;
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

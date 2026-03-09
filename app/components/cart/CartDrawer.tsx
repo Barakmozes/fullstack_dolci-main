@@ -7,10 +7,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { HiOutlineX, HiOutlinePlus, HiOutlineMinus, HiOutlineTrash } from "react-icons/hi";
 import { useCartStore } from "@/lib/cart-store";
 import { formatPrice } from "@/lib/utils";
+import { useLocale } from "@/lib/useLocale";
 
 export default function CartDrawer() {
   const { items, isOpen, closeCart, removeItem, updateQuantity, totalPrice, clearCart } =
     useCartStore();
+  const { t, localized, isRtl } = useLocale();
 
   const total = totalPrice();
   const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
@@ -30,26 +32,26 @@ export default function CartDrawer() {
 
           {/* Drawer */}
           <motion.div
-            initial={{ x: "100%" }}
+            initial={{ x: isRtl ? "-100%" : "100%" }}
             animate={{ x: 0 }}
-            exit={{ x: "100%" }}
+            exit={{ x: isRtl ? "-100%" : "100%" }}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="fixed top-0 right-0 bottom-0 w-full sm:w-[420px] bg-cream-50 z-[90] shadow-2xl flex flex-col"
+            className={`fixed top-0 bottom-0 w-full sm:w-[420px] bg-cream-50 z-[90] shadow-2xl flex flex-col ${isRtl ? "left-0" : "right-0"}`}
           >
             {/* Header */}
             <div className="flex items-center justify-between p-6 border-b border-cream-200">
               <div>
                 <h2 className="text-xl font-serif font-bold text-chocolate-800">
-                  Your Cart
+                  {t("cart.title")}
                 </h2>
                 <p className="text-sm text-chocolate-400 mt-0.5">
-                  {itemCount} {itemCount === 1 ? "item" : "items"}
+                  {itemCount} {itemCount === 1 ? t("cart.item") : t("cart.items")}
                 </p>
               </div>
               <button
                 onClick={closeCart}
                 className="p-2 rounded-full hover:bg-cream-200 text-chocolate-600 transition-colors"
-                aria-label="Close cart"
+                aria-label={t("cart.closeCart")}
               >
                 <HiOutlineX className="w-5 h-5" />
               </button>
@@ -61,17 +63,17 @@ export default function CartDrawer() {
                 <div className="flex flex-col items-center justify-center h-full text-center">
                   <p className="text-5xl mb-4">🎂</p>
                   <h3 className="font-serif text-lg text-chocolate-700 mb-2">
-                    Your cart is empty
+                    {t("cart.empty")}
                   </h3>
                   <p className="text-sm text-chocolate-400 mb-6">
-                    Time to treat yourself to something sweet!
+                    {t("cart.emptyMessage")}
                   </p>
                   <Link
                     href="/menu"
                     onClick={closeCart}
                     className="btn-primary text-sm"
                   >
-                    Browse Menu
+                    {t("cart.browseMenu")}
                   </Link>
                 </div>
               ) : (
@@ -102,7 +104,7 @@ export default function CartDrawer() {
                         {/* Info */}
                         <div className="flex-1 min-w-0">
                           <h4 className="font-serif font-semibold text-sm text-chocolate-800 truncate">
-                            {item.product.name}
+                            {localized(item.product, "name")}
                           </h4>
                           {item.selectedSize && (
                             <p className="text-xs text-chocolate-400">
@@ -168,13 +170,13 @@ export default function CartDrawer() {
             {items.length > 0 && (
               <div className="border-t border-cream-200 p-6 space-y-4">
                 <div className="flex justify-between items-center">
-                  <span className="text-chocolate-600">Subtotal</span>
+                  <span className="text-chocolate-600">{t("cart.subtotal")}</span>
                   <span className="text-lg font-serif font-bold text-chocolate-800">
                     {formatPrice(total)}
                   </span>
                 </div>
                 <p className="text-xs text-chocolate-400">
-                  Delivery fee calculated at checkout
+                  {t("cart.deliveryNote")}
                 </p>
                 <button
                   className="btn-gold w-full py-3.5 text-base"
@@ -183,13 +185,13 @@ export default function CartDrawer() {
                     // Navigate to checkout (demo)
                   }}
                 >
-                  Proceed to Checkout
+                  {t("cart.checkout")}
                 </button>
                 <button
                   onClick={clearCart}
                   className="w-full text-center text-xs text-chocolate-400 hover:text-red-500 transition-colors py-1"
                 >
-                  Clear Cart
+                  {t("cart.clearCart")}
                 </button>
               </div>
             )}

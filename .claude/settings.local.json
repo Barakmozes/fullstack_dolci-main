@@ -9,7 +9,8 @@
       "Bash(wc -l \"C:/Users/barakm/Desktop/MyProject/fullstack_dolci-main/src\"/**/*.js)",
       "Bash(yarn install)",
       "Bash(yarn install --ignore-engines)",
-      "Bash(npx next build)"
+      "Bash(npx next build)",
+      "Bash(yarn build)"
     ]
   }
 }

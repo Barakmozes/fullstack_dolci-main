@@ -2,35 +2,19 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { useLocale } from "@/lib/useLocale";
+import type { TranslationKey } from "@/lib/translations";
 
-const values = [
-  {
-    icon: "🌾",
-    title: "Finest Ingredients",
-    description:
-      "We source premium ingredients from trusted local and European suppliers — real butter, Belgian chocolate, and seasonal fruits.",
-  },
-  {
-    icon: "👨‍🍳",
-    title: "Handcrafted Daily",
-    description:
-      "Every pastry is made fresh each morning by our skilled artisans, following traditional techniques passed down through generations.",
-  },
-  {
-    icon: "❤️",
-    title: "Made with Love",
-    description:
-      "We believe the secret ingredient is passion. Every creation carries the care and dedication of our team.",
-  },
-  {
-    icon: "🌿",
-    title: "Locally Sourced",
-    description:
-      "We partner with local farmers and producers to bring you the freshest, most sustainable ingredients possible.",
-  },
-];
+const valueKeys = [
+  { icon: "🌾", titleKey: "about.value1Title", descKey: "about.value1Desc" },
+  { icon: "👨‍🍳", titleKey: "about.value2Title", descKey: "about.value2Desc" },
+  { icon: "❤️", titleKey: "about.value3Title", descKey: "about.value3Desc" },
+  { icon: "🌿", titleKey: "about.value4Title", descKey: "about.value4Desc" },
+] as const;
 
 export default function AboutContent() {
+  const { t } = useLocale();
+
   return (
     <div>
       {/* Hero */}
@@ -48,9 +32,9 @@ export default function AboutContent() {
           transition={{ duration: 0.8 }}
           className="relative z-10 text-center px-4"
         >
-          <span className="text-gold-400 font-script text-xl">Since 2018</span>
+          <span className="text-gold-400 font-script text-xl">{t("about.since")}</span>
           <h1 className="text-4xl md:text-6xl font-serif font-bold text-cream-100 mt-2">
-            Our Story
+            {t("about.heroTitle")}
           </h1>
         </motion.div>
       </section>
@@ -65,29 +49,14 @@ export default function AboutContent() {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <span className="text-gold-500 font-script text-lg">The Beginning</span>
+              <span className="text-gold-500 font-script text-lg">{t("about.theBeginning")}</span>
               <h2 className="heading-lg text-chocolate-800 mt-1 mb-6">
-                A Dream Born from Passion
+                {t("about.dreamTitle")}
               </h2>
               <div className="space-y-4 text-chocolate-600 leading-relaxed">
-                <p>
-                  DOLCI was born from a simple dream: to create a place where the art
-                  of pastry-making is celebrated in every bite. Founded in the heart
-                  of Tel Aviv, our bakery has become a destination for those who
-                  appreciate the finer things in life.
-                </p>
-                <p>
-                  Our head pastry chef trained at some of Europe&apos;s most prestigious
-                  patisseries, bringing back centuries of technique and a relentless
-                  pursuit of perfection. Every morning, our kitchen comes alive with
-                  the aroma of freshly baked croissants, hand-tempered chocolate, and
-                  caramelizing sugar.
-                </p>
-                <p>
-                  We don&apos;t just make pastries — we craft experiences. Each creation
-                  is designed to evoke emotion, spark joy, and create memories worth
-                  savoring.
-                </p>
+                <p>{t("about.dreamP1")}</p>
+                <p>{t("about.dreamP2")}</p>
+                <p>{t("about.dreamP3")}</p>
               </div>
             </motion.div>
 
@@ -118,14 +87,14 @@ export default function AboutContent() {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <span className="text-gold-500 font-script text-lg">Our Philosophy</span>
-            <h2 className="heading-lg text-chocolate-800 mt-1">What We Stand For</h2>
+            <span className="text-gold-500 font-script text-lg">{t("about.philosophyLabel")}</span>
+            <h2 className="heading-lg text-chocolate-800 mt-1">{t("about.philosophyTitle")}</h2>
           </motion.div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {values.map((value, i) => (
+            {valueKeys.map((value, i) => (
               <motion.div
-                key={value.title}
+                key={value.titleKey}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -134,10 +103,10 @@ export default function AboutContent() {
               >
                 <span className="text-4xl block mb-4">{value.icon}</span>
                 <h3 className="font-serif font-semibold text-lg text-chocolate-800 mb-2">
-                  {value.title}
+                  {t(value.titleKey as TranslationKey)}
                 </h3>
                 <p className="text-sm text-chocolate-500 leading-relaxed">
-                  {value.description}
+                  {t(value.descKey as TranslationKey)}
                 </p>
               </motion.div>
             ))}
@@ -154,26 +123,25 @@ export default function AboutContent() {
             viewport={{ once: true }}
           >
             <h2 className="heading-lg text-chocolate-800 mb-4">
-              Come Visit Us
+              {t("about.visitTitle")}
             </h2>
             <p className="text-chocolate-600 max-w-lg mx-auto mb-8">
-              Experience DOLCI in person. Step into our bakery, take in the aromas,
-              and let us surprise you with today&apos;s creations.
+              {t("about.visitSubtitle")}
             </p>
             <div className="bg-white rounded-2xl shadow-soft p-8 max-w-md mx-auto">
               <h3 className="font-serif font-semibold text-chocolate-800 mb-4">
-                DOLCI Artisan Bakery
+                {t("about.bakeryName")}
               </h3>
               <p className="text-sm text-chocolate-500 mb-2">
-                42 Rothschild Blvd, Tel Aviv
+                {t("about.address")}
               </p>
               <p className="text-sm text-chocolate-500 mb-4">
-                03-555-1234 | hello@dolci.co.il
+                {t("about.phone")}
               </p>
               <div className="text-sm text-chocolate-600 space-y-1">
-                <p>Sunday - Thursday: 07:00 - 20:00</p>
-                <p>Friday: 07:00 - 14:00</p>
-                <p>Saturday: Closed</p>
+                <p>{t("about.hoursSunThu")}</p>
+                <p>{t("about.hoursFri")}</p>
+                <p>{t("about.hoursSat")}</p>
               </div>
             </div>
           </motion.div>

@@ -5,22 +5,26 @@ import Link from "next/link";
 import { motion, useInView } from "framer-motion";
 import { HiArrowRight, HiArrowLeft } from "react-icons/hi";
 import ProductCard from "@/app/components/menu/ProductCard";
+import { useLocale } from "@/lib/useLocale";
 import type { Product } from "@/data/types";
 
 interface FeaturedProductsProps {
   products: Product[];
-  title?: string;
-  subtitle?: string;
+  sectionLabelKey?: string;
+  titleKey?: string;
+  subtitleKey?: string;
 }
 
 export default function FeaturedProducts({
   products,
-  title = "Our Best Sellers",
-  subtitle = "The most loved creations from our kitchen, chosen by our customers time and time again.",
+  sectionLabelKey = "featured.sectionLabel",
+  titleKey = "featured.title",
+  subtitleKey = "featured.subtitle",
 }: FeaturedProductsProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const { t } = useLocale();
 
   const scroll = (direction: "left" | "right") => {
     if (scrollContainerRef.current) {
@@ -43,9 +47,9 @@ export default function FeaturedProducts({
           className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4"
         >
           <div>
-            <span className="text-gold-500 font-script text-lg">Favorites</span>
-            <h2 className="heading-lg text-chocolate-800 mt-1">{title}</h2>
-            <p className="text-body mt-2 max-w-lg">{subtitle}</p>
+            <span className="text-gold-500 font-script text-lg">{t(sectionLabelKey as any)}</span>
+            <h2 className="heading-lg text-chocolate-800 mt-1">{t(titleKey as any)}</h2>
+            <p className="text-body mt-2 max-w-lg">{t(subtitleKey as any)}</p>
           </div>
           <div className="flex items-center gap-4">
             <div className="hidden md:flex gap-2">
@@ -68,7 +72,7 @@ export default function FeaturedProducts({
               href="/menu"
               className="text-sm font-medium text-gold-600 hover:text-gold-700 flex items-center gap-1 transition-colors"
             >
-              View All
+              {t("featured.viewAll")}
               <HiArrowRight className="w-4 h-4" />
             </Link>
           </div>

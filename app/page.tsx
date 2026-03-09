@@ -23,17 +23,14 @@ export default async function HomePage() {
       <Header />
       <main>
         <HeroSection />
-        <FeaturedProducts
-          products={bestSellers}
-          title="Our Best Sellers"
-          subtitle="The most loved creations from our kitchen, chosen by our customers time and time again."
-        />
+        <FeaturedProducts products={bestSellers} />
         <CategoryShowcase categories={categories} />
         {newArrivals.length > 0 && (
           <FeaturedProducts
             products={newArrivals}
-            title="New Arrivals"
-            subtitle="Fresh from our kitchen — discover our latest creations and seasonal inspirations."
+            sectionLabelKey="newArrivals.sectionLabel"
+            titleKey="newArrivals.title"
+            subtitleKey="newArrivals.subtitle"
           />
         )}
         <Testimonials testimonials={testimonials} />

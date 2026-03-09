@@ -6,8 +6,10 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { HiOutlinePlus, HiCheck } from "react-icons/hi";
 import { useCartStore } from "@/lib/cart-store";
+import { useLocale } from "@/lib/useLocale";
 import { formatPrice, cn, truncate } from "@/lib/utils";
 import type { Product } from "@/data/types";
+import type { TranslationKey } from "@/lib/translations";
 
 const tagStyles: Record<string, string> = {
   "new": "badge-new",
@@ -15,14 +17,6 @@ const tagStyles: Record<string, string> = {
   "chefs-pick": "badge-chefspick",
   "limited": "badge-limited",
   "seasonal": "badge-seasonal",
-};
-
-const tagLabels: Record<string, string> = {
-  "new": "New",
-  "best-seller": "Best Seller",
-  "chefs-pick": "Chef's Pick",
-  "limited": "Limited",
-  "seasonal": "Seasonal",
 };
 
 interface ProductCardProps {
@@ -33,7 +27,7 @@ interface ProductCardProps {
 export default function ProductCard({ product, index = 0 }: ProductCardProps) {
   const [added, setAdded] = useState(false);
   const addItem = useCartStore((s) => s.addItem);
-  const openCart = useCartStore((s) => s.openCart);
+  const { t, localized } = useLocale();
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -47,6 +41,8 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
     ? product.sizes[0].price
     : product.price;
 
+  const productName = localized(product, "name");
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -59,7 +55,7 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
           <div className="relative aspect-[4/5] overflow-hidden bg-cream-200">
             <Image
               src={product.thumbnail}
-              alt={product.name}
+              alt={productName}
               fill
               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
               className="object-cover transition-transform duration-700 group-hover:scale-110"
@@ -70,7 +66,7 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
               <div className="absolute top-3 left-3 flex flex-col gap-1.5">
                 {product.tags.slice(0, 2).map((tag) => (
                   <span key={tag} className={tagStyles[tag] || "badge"}>
-                    {tagLabels[tag] || tag}
+                    {t(`tag.${tag}` as TranslationKey)}
                   </span>
                 ))}
               </div>
@@ -95,7 +91,7 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
                   : "bg-white text-chocolate-800 opacity-0 group-hover:opacity-100 hover:bg-gold-500 hover:text-white"
               )}
               whileTap={{ scale: 0.9 }}
-              aria-label={`Add ${product.name} to cart`}
+              aria-label={`${t("product.addToCart")} - ${productName}`}
             >
               {added ? (
                 <HiCheck className="w-5 h-5" />
@@ -108,10 +104,10 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
           {/* Content */}
           <div className="p-4">
             <h3 className="font-serif font-semibold text-chocolate-800 text-base mb-1 group-hover:text-gold-600 transition-colors">
-              {product.name}
+              {productName}
             </h3>
             <p className="text-xs text-chocolate-400 mb-3 line-clamp-2 leading-relaxed">
-              {truncate(product.description, 80)}
+              {truncate(localized(product, "description"), 80)}
             </p>
             <div className="flex items-center justify-between">
               <div className="flex items-baseline gap-2">

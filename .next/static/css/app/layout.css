@@ -1356,6 +1356,9 @@ video {
 .border-cream-200\/20 {
   border-color: rgb(255 241 224 / 0.2);
 }
+.border-cream-200\/30 {
+  border-color: rgb(255 241 224 / 0.3);
+}
 .border-cream-200\/40 {
   border-color: rgb(255 241 224 / 0.4);
 }
@@ -1511,6 +1514,10 @@ video {
   padding-left: 0.25rem;
   padding-right: 0.25rem;
 }
+.px-2\.5 {
+  padding-left: 0.625rem;
+  padding-right: 0.625rem;
+}
 .px-3 {
   padding-left: 0.75rem;
   padding-right: 0.75rem;
@@ -1530,6 +1537,10 @@ video {
 .py-1 {
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
+}
+.py-1\.5 {
+  padding-top: 0.375rem;
+  padding-bottom: 0.375rem;
 }
 .py-2 {
   padding-top: 0.5rem;
@@ -1884,6 +1895,31 @@ video {
 /* Stagger children animations */
 
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Dancing+Script:wght@400;500;600;700&family=Heebo:wght@300;400;500;600;700&display=swap');
+
+/* RTL Support */
+[dir="rtl"] {
+  font-family: 'Heebo', 'DM Sans', sans-serif;
+}
+
+[dir="rtl"] h1,
+[dir="rtl"] h2,
+[dir="rtl"] h3,
+[dir="rtl"] h4,
+[dir="rtl"] h5,
+[dir="rtl"] h6 {
+  font-family: 'Heebo', 'Playfair Display', serif;
+}
+
+[dir="rtl"] .font-script {
+  font-family: 'Heebo', 'Dancing Script', cursive;
+}
+
+[dir="rtl"] .tracking-wide,
+[dir="rtl"] .tracking-wider,
+[dir="rtl"] .tracking-[0.15em],
+[dir="rtl"] .tracking-[0.2em] {
+  letter-spacing: 0.02em;
+}
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {

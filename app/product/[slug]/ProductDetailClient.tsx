@@ -8,8 +8,10 @@ import { HiOutlinePlus, HiOutlineMinus, HiOutlineHeart } from "react-icons/hi";
 import toast from "react-hot-toast";
 import { useCartStore } from "@/lib/cart-store";
 import { formatPrice, cn } from "@/lib/utils";
+import { useLocale } from "@/lib/useLocale";
 import ProductCard from "@/app/components/menu/ProductCard";
 import type { Product, ProductSize } from "@/data/types";
+import type { TranslationKey } from "@/lib/translations";
 
 const allergenEmojis: Record<string, string> = {
   gluten: "🌾",
@@ -36,12 +38,13 @@ export default function ProductDetailClient({
   const [activeImage, setActiveImage] = useState(0);
   const addItem = useCartStore((s) => s.addItem);
   const openCart = useCartStore((s) => s.openCart);
+  const { t, localized } = useLocale();
 
   const currentPrice = selectedSize?.price ?? product.price;
 
   const handleAddToCart = () => {
     addItem(product, quantity, selectedSize);
-    toast.success(`${product.name} added to cart!`);
+    toast.success(`${localized(product, "name")} ${t("product.addedToCart")}`);
     openCart();
   };
 
@@ -49,11 +52,11 @@ export default function ProductDetailClient({
     <div className="container-custom">
       {/* Breadcrumb */}
       <div className="flex items-center gap-2 text-sm text-chocolate-400 mb-8">
-        <Link href="/" className="hover:text-gold-600 transition-colors">Home</Link>
+        <Link href="/" className="hover:text-gold-600 transition-colors">{t("common.home")}</Link>
         <span>/</span>
-        <Link href="/menu" className="hover:text-gold-600 transition-colors">Menu</Link>
+        <Link href="/menu" className="hover:text-gold-600 transition-colors">{t("common.menu")}</Link>
         <span>/</span>
-        <span className="text-chocolate-700">{product.name}</span>
+        <span className="text-chocolate-700">{localized(product, "name")}</span>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
@@ -87,7 +90,7 @@ export default function ProductDetailClient({
                       tag === "seasonal" && "badge-seasonal"
                     )}
                   >
-                    {tag === "best-seller" ? "Best Seller" : tag === "chefs-pick" ? "Chef's Pick" : tag.charAt(0).toUpperCase() + tag.slice(1)}
+                    {t(`tag.${tag}` as TranslationKey)}
                   </span>
                 ))}
               </div>
@@ -123,7 +126,7 @@ export default function ProductDetailClient({
           className="flex flex-col"
         >
           <h1 className="text-3xl md:text-4xl font-serif font-bold text-chocolate-800 mb-2">
-            {product.name}
+            {localized(product, "name")}
           </h1>
           <p className="text-sm text-chocolate-400 font-sans mb-4">{product.nameHe}</p>
 
@@ -137,7 +140,7 @@ export default function ProductDetailClient({
               ))}
             </div>
             <span className="text-sm text-chocolate-500">
-              {product.rating.toFixed(1)} ({product.reviewCount} reviews)
+              {product.rating.toFixed(1)} ({product.reviewCount} {t("product.reviews")})
             </span>
           </div>
 
@@ -155,14 +158,14 @@ export default function ProductDetailClient({
 
           {/* Description */}
           <p className="text-chocolate-600 leading-relaxed mb-8">
-            {product.description}
+            {localized(product, "description")}
           </p>
 
           {/* Size Selector */}
           {product.sizes && product.sizes.length > 0 && (
             <div className="mb-6">
               <h3 className="text-sm font-semibold text-chocolate-700 uppercase tracking-wider mb-3">
-                Size
+                {t("product.size")}
               </h3>
               <div className="flex flex-wrap gap-2">
                 {product.sizes.map((size) => (
@@ -186,7 +189,7 @@ export default function ProductDetailClient({
           {/* Quantity */}
           <div className="mb-8">
             <h3 className="text-sm font-semibold text-chocolate-700 uppercase tracking-wider mb-3">
-              Quantity
+              {t("product.quantity")}
             </h3>
             <div className="flex items-center gap-3">
               <button
@@ -213,7 +216,7 @@ export default function ProductDetailClient({
               onClick={handleAddToCart}
               className="btn-gold flex-1 py-4 text-base"
             >
-              Add to Cart — {formatPrice(currentPrice * quantity)}
+              {t("product.addToCart")} — {formatPrice(currentPrice * quantity)}
             </button>
             <button className="w-12 h-12 rounded-xl border border-cream-300 flex items-center justify-center text-chocolate-500 hover:text-rose-500 hover:border-rose-300 transition-colors">
               <HiOutlineHeart className="w-5 h-5" />
@@ -224,7 +227,7 @@ export default function ProductDetailClient({
           {product.allergens.length > 0 && (
             <div className="mb-6 p-4 bg-cream-200/50 rounded-xl">
               <h3 className="text-xs font-semibold text-chocolate-700 uppercase tracking-wider mb-2">
-                Allergens
+                {t("product.allergens")}
               </h3>
               <div className="flex flex-wrap gap-2">
                 {product.allergens.map((allergen) => (
@@ -242,7 +245,7 @@ export default function ProductDetailClient({
           {/* Ingredients */}
           <details className="group mb-4">
             <summary className="flex items-center justify-between cursor-pointer py-3 border-t border-cream-200 text-sm font-medium text-chocolate-700">
-              Ingredients
+              {t("product.ingredients")}
               <span className="text-chocolate-400 group-open:rotate-180 transition-transform">▼</span>
             </summary>
             <p className="text-sm text-chocolate-500 pb-3 leading-relaxed">
@@ -266,7 +269,7 @@ export default function ProductDetailClient({
       {/* Related Products */}
       {relatedProducts.length > 0 && (
         <section className="mt-20 pt-12 border-t border-cream-200">
-          <h2 className="heading-md text-chocolate-800 mb-8">You May Also Like</h2>
+          <h2 className="heading-md text-chocolate-800 mb-8">{t("product.youMayAlsoLike")}</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
             {relatedProducts.map((p, i) => (
               <ProductCard key={p.id} product={p} index={i} />

@@ -3,10 +3,19 @@
 import { useEffect } from "react";
 import { Toaster } from "react-hot-toast";
 import { useCartStore } from "@/lib/cart-store";
+import { useLocaleStore } from "@/lib/locale-store";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     useCartStore.persist.rehydrate();
+    useLocaleStore.persist.rehydrate();
+  }, []);
+
+  // Sync locale to DOM on mount
+  useEffect(() => {
+    const locale = useLocaleStore.getState().locale;
+    document.documentElement.lang = locale;
+    document.documentElement.dir = locale === "he" ? "rtl" : "ltr";
   }, []);
 
   return (

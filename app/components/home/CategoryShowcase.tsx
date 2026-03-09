@@ -4,6 +4,7 @@ import { useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, useInView } from "framer-motion";
+import { useLocale } from "@/lib/useLocale";
 import type { Category } from "@/data/types";
 
 // Map category slugs to bakery images from existing assets
@@ -27,6 +28,7 @@ interface CategoryShowcaseProps {
 export default function CategoryShowcase({ categories }: CategoryShowcaseProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const { t, localized } = useLocale();
 
   return (
     <section ref={ref} className="section-padding bg-white">
@@ -37,11 +39,10 @@ export default function CategoryShowcase({ categories }: CategoryShowcaseProps) 
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <span className="text-gold-500 font-script text-lg">Explore</span>
-          <h2 className="heading-lg text-chocolate-800 mt-1">Our Collections</h2>
+          <span className="text-gold-500 font-script text-lg">{t("categories.sectionLabel")}</span>
+          <h2 className="heading-lg text-chocolate-800 mt-1">{t("categories.title")}</h2>
           <p className="text-body mt-3 max-w-xl mx-auto">
-            From delicate viennoiserie to showstopping celebration cakes — discover
-            our world of handcrafted delights.
+            {t("categories.subtitle")}
           </p>
         </motion.div>
 
@@ -62,7 +63,7 @@ export default function CategoryShowcase({ categories }: CategoryShowcaseProps) 
                     categoryImages[category.slug] ||
                     "/img/big/324860600_565541368764551_4472766876171986667_n.webp"
                   }
-                  alt={category.name}
+                  alt={localized(category, "name")}
                   fill
                   sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                   className="object-cover transition-transform duration-700 group-hover:scale-110"
@@ -70,13 +71,13 @@ export default function CategoryShowcase({ categories }: CategoryShowcaseProps) 
                 <div className="absolute inset-0 bg-gradient-to-t from-chocolate-900/80 via-chocolate-900/20 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6">
                   <h3 className="font-serif font-bold text-cream-100 text-lg md:text-xl mb-1">
-                    {category.name}
+                    {localized(category, "name")}
                   </h3>
                   <p className="text-cream-200/80 text-xs md:text-sm line-clamp-2">
-                    {category.description}
+                    {localized(category, "description")}
                   </p>
                   <span className="inline-flex items-center gap-1 mt-2 text-gold-400 text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    Explore
+                    {t("categories.explore")}
                     <svg
                       className="w-3 h-3"
                       fill="none"

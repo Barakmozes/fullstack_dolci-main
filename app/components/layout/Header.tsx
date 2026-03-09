@@ -5,7 +5,9 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { HiOutlineShoppingBag, HiOutlineSearch, HiOutlineMenu, HiOutlineX } from "react-icons/hi";
 import { useCartStore } from "@/lib/cart-store";
+import { useLocale } from "@/lib/useLocale";
 import { cn } from "@/lib/utils";
+import LanguageToggle from "./LanguageToggle";
 
 const navLinks = [
   { href: "/", label: "Home", labelHe: "\u05D1\u05D9\u05EA" },
@@ -19,6 +21,7 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const totalItems = useCartStore((s) => s.totalItems());
   const openCart = useCartStore((s) => s.openCart);
+  const { t, localized, isRtl } = useLocale();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -49,7 +52,7 @@ export default function Header() {
               "hidden sm:block text-xs font-sans tracking-[0.2em] uppercase transition-colors duration-300",
               scrolled ? "text-gold-600" : "text-gold-300"
             )}>
-              Artisan Bakery
+              {t("header.artisanBakery")}
             </span>
           </Link>
 
@@ -64,7 +67,7 @@ export default function Header() {
                   scrolled ? "text-chocolate-700" : "text-white/90"
                 )}
               >
-                {link.label}
+                {localized(link, "label")}
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gold-500 transition-all duration-300 group-hover:w-full" />
               </Link>
             ))}
@@ -72,13 +75,16 @@ export default function Header() {
 
           {/* Actions */}
           <div className="flex items-center gap-3">
+            {/* Language Toggle */}
+            <LanguageToggle scrolled={scrolled} />
+
             {/* Search */}
             <button
               className={cn(
                 "p-2 rounded-full transition-all duration-300 hover:bg-white/10",
                 scrolled ? "text-chocolate-700 hover:bg-chocolate-100" : "text-white"
               )}
-              aria-label="Search"
+              aria-label={t("header.search")}
             >
               <HiOutlineSearch className="w-5 h-5" />
             </button>
@@ -90,7 +96,7 @@ export default function Header() {
                 "p-2 rounded-full transition-all duration-300 hover:bg-white/10 relative",
                 scrolled ? "text-chocolate-700 hover:bg-chocolate-100" : "text-white"
               )}
-              aria-label={`Cart (${totalItems} items)`}
+              aria-label={`${t("nav.cart")} (${totalItems})`}
             >
               <HiOutlineShoppingBag className="w-5 h-5" />
               <AnimatePresence>
@@ -114,7 +120,7 @@ export default function Header() {
                 "md:hidden p-2 rounded-full transition-all duration-300",
                 scrolled ? "text-chocolate-700" : "text-white"
               )}
-              aria-label="Open menu"
+              aria-label={t("header.openMenu")}
             >
               <HiOutlineMenu className="w-6 h-6" />
             </button>
@@ -134,11 +140,14 @@ export default function Header() {
               onClick={() => setMobileMenuOpen(false)}
             />
             <motion.div
-              initial={{ x: "100%" }}
+              initial={{ x: isRtl ? "-100%" : "100%" }}
               animate={{ x: 0 }}
-              exit={{ x: "100%" }}
+              exit={{ x: isRtl ? "-100%" : "100%" }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed top-0 right-0 bottom-0 w-80 bg-cream-100 z-[70] shadow-2xl"
+              className={cn(
+                "fixed top-0 bottom-0 w-80 bg-cream-100 z-[70] shadow-2xl",
+                isRtl ? "left-0" : "right-0"
+              )}
             >
               <div className="p-6">
                 <div className="flex justify-between items-center mb-10">
@@ -148,7 +157,7 @@ export default function Header() {
                   <button
                     onClick={() => setMobileMenuOpen(false)}
                     className="p-2 rounded-full hover:bg-cream-200 text-chocolate-700"
-                    aria-label="Close menu"
+                    aria-label={t("header.closeMenu")}
                   >
                     <HiOutlineX className="w-6 h-6" />
                   </button>
@@ -167,8 +176,7 @@ export default function Header() {
                         onClick={() => setMobileMenuOpen(false)}
                         className="flex items-center justify-between py-4 px-4 text-lg font-medium text-chocolate-700 hover:text-gold-600 hover:bg-cream-200 rounded-xl transition-all"
                       >
-                        <span>{link.label}</span>
-                        <span className="text-sm text-chocolate-400">{link.labelHe}</span>
+                        <span>{localized(link, "label")}</span>
                       </Link>
                     </motion.div>
                   ))}
@@ -176,10 +184,10 @@ export default function Header() {
 
                 <div className="mt-10 pt-8 border-t border-cream-300">
                   <p className="text-sm text-chocolate-400 font-sans">
-                    Premium Artisan Bakery
+                    {t("header.premiumBakery")}
                   </p>
                   <p className="text-sm text-chocolate-400 font-sans mt-1">
-                    Tel Aviv, Israel
+                    {t("header.location")}
                   </p>
                 </div>
               </div>

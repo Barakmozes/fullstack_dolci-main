@@ -1,6 +1,7 @@
 "use client";
 
 import ProductCard from "./ProductCard";
+import { useLocale } from "@/lib/useLocale";
 import type { Product } from "@/data/types";
 
 interface ProductGridProps {
@@ -8,13 +9,15 @@ interface ProductGridProps {
 }
 
 export default function ProductGrid({ products }: ProductGridProps) {
+  const { t } = useLocale();
+
   if (products.length === 0) {
     return (
       <div className="text-center py-20">
         <p className="text-6xl mb-4">🧁</p>
-        <h3 className="heading-sm text-chocolate-700 mb-2">No treats found</h3>
+        <h3 className="heading-sm text-chocolate-700 mb-2">{t("grid.noProducts")}</h3>
         <p className="text-body-sm">
-          Try adjusting your filters or search to find something sweet.
+          {t("grid.noProductsMessage")}
         </p>
       </div>
     );

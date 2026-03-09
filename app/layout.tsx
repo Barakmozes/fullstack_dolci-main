@@ -15,6 +15,10 @@ export const metadata: Metadata = {
     "croissant",
     "macarons",
   ],
+  icons: {
+    icon: "/img/logo_n.png",
+    apple: "/img/logo_n.png",
+  },
   openGraph: {
     title: "DOLCI | Premium Artisan Pastry & Bakery",
     description:
@@ -31,7 +35,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="he" dir="ltr">
+    <html lang="en" dir="ltr" suppressHydrationWarning>
       <body className="min-h-screen flex flex-col texture-linen">
         {children}
       </body>

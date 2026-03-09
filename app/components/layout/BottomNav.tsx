@@ -5,19 +5,21 @@ import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { HiOutlineHome, HiOutlineViewGrid, HiOutlineShoppingBag, HiOutlineUser } from "react-icons/hi";
 import { useCartStore } from "@/lib/cart-store";
+import { useLocale } from "@/lib/useLocale";
 import { cn } from "@/lib/utils";
 
 const navItems = [
-  { href: "/", icon: HiOutlineHome, label: "Home" },
-  { href: "/menu", icon: HiOutlineViewGrid, label: "Menu" },
-  { href: "#cart", icon: HiOutlineShoppingBag, label: "Cart", isCart: true },
-  { href: "/account", icon: HiOutlineUser, label: "Account" },
+  { href: "/", icon: HiOutlineHome, label: "Home", labelHe: "בית" },
+  { href: "/menu", icon: HiOutlineViewGrid, label: "Menu", labelHe: "תפריט" },
+  { href: "#cart", icon: HiOutlineShoppingBag, label: "Cart", labelHe: "עגלה", isCart: true },
+  { href: "/account", icon: HiOutlineUser, label: "Account", labelHe: "חשבון" },
 ];
 
 export default function BottomNav() {
   const pathname = usePathname();
   const totalItems = useCartStore((s) => s.totalItems());
   const openCart = useCartStore((s) => s.openCart);
+  const { localized } = useLocale();
 
   return (
     <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-lg border-t border-cream-300 safe-area-bottom">
@@ -46,7 +48,7 @@ export default function BottomNav() {
                   )}
                 </div>
                 <span className="text-[10px] font-medium text-chocolate-500">
-                  {item.label}
+                  {localized(item, "label")}
                 </span>
               </button>
             );
@@ -70,7 +72,7 @@ export default function BottomNav() {
                   isActive ? "text-gold-600" : "text-chocolate-400"
                 )}
               >
-                {item.label}
+                {localized(item, "label")}
               </span>
               {isActive && (
                 <motion.div

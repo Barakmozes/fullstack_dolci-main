@@ -1,21 +1,26 @@
+"use client";
+
 import Link from "next/link";
 import { HiOutlineMail, HiOutlinePhone, HiOutlineLocationMarker } from "react-icons/hi";
-
-const quickLinks = [
-  { href: "/menu", label: "Our Menu" },
-  { href: "/about", label: "Our Story" },
-  { href: "/contact", label: "Contact Us" },
-  { href: "/faqs", label: "FAQs" },
-];
-
-const categories = [
-  { href: "/menu?category=cakes", label: "Cakes" },
-  { href: "/menu?category=pastries", label: "Pastries" },
-  { href: "/menu?category=viennoiserie", label: "Viennoiserie" },
-  { href: "/menu?category=gift-boxes", label: "Gift Boxes" },
-];
+import { useLocale } from "@/lib/useLocale";
 
 export default function Footer() {
+  const { t } = useLocale();
+
+  const quickLinks = [
+    { href: "/menu", label: t("footer.ourMenu") },
+    { href: "/about", label: t("footer.ourStory") },
+    { href: "/contact", label: t("footer.contactUs") },
+    { href: "/faqs", label: t("footer.faqs") },
+  ];
+
+  const categories = [
+    { href: "/menu?category=cakes", label: t("footer.cakes") },
+    { href: "/menu?category=pastries", label: t("footer.pastries") },
+    { href: "/menu?category=viennoiserie", label: t("footer.viennoiserie") },
+    { href: "/menu?category=gift-boxes", label: t("footer.giftBoxes") },
+  ];
+
   return (
     <footer className="bg-chocolate-800 text-cream-200">
       {/* Main Footer */}
@@ -27,11 +32,10 @@ export default function Footer() {
               DOLCI
             </h3>
             <p className="text-sm tracking-[0.15em] uppercase text-gold-400 mb-4">
-              Artisan Bakery
+              {t("header.artisanBakery")}
             </p>
             <p className="text-cream-300 text-sm leading-relaxed mb-6">
-              Handcrafted with passion, baked with love. Every creation tells a
-              story of tradition, artistry, and the finest ingredients.
+              {t("footer.brandDesc")}
             </p>
             <div className="flex gap-4">
               {["Instagram", "Facebook", "WhatsApp"].map((social) => (
@@ -52,7 +56,7 @@ export default function Footer() {
           {/* Quick Links */}
           <div>
             <h4 className="text-sm font-semibold uppercase tracking-wider text-gold-400 mb-6">
-              Quick Links
+              {t("footer.quickLinks")}
             </h4>
             <ul className="space-y-3">
               {quickLinks.map((link) => (
@@ -71,7 +75,7 @@ export default function Footer() {
           {/* Categories */}
           <div>
             <h4 className="text-sm font-semibold uppercase tracking-wider text-gold-400 mb-6">
-              Categories
+              {t("footer.categories")}
             </h4>
             <ul className="space-y-3">
               {categories.map((link) => (
@@ -90,13 +94,13 @@ export default function Footer() {
           {/* Contact */}
           <div>
             <h4 className="text-sm font-semibold uppercase tracking-wider text-gold-400 mb-6">
-              Visit Us
+              {t("footer.visitUs")}
             </h4>
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
                 <HiOutlineLocationMarker className="w-5 h-5 text-gold-400 mt-0.5 flex-shrink-0" />
                 <span className="text-cream-300 text-sm">
-                  42 Rothschild Blvd,<br />Tel Aviv, Israel
+                  {t("footer.address")}<br />{t("footer.city")}
                 </span>
               </li>
               <li className="flex items-center gap-3">
@@ -110,9 +114,9 @@ export default function Footer() {
             </ul>
             <div className="mt-6 pt-4 border-t border-chocolate-700">
               <p className="text-xs text-cream-400">
-                Sun - Thu: 07:00 - 20:00<br />
-                Fri: 07:00 - 14:00<br />
-                Sat: Closed
+                {t("footer.hours")}<br />
+                {t("footer.hoursFri")}<br />
+                {t("footer.hoursSat")}
               </p>
             </div>
           </div>
@@ -123,14 +127,14 @@ export default function Footer() {
       <div className="border-t border-chocolate-700">
         <div className="container-custom py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-cream-500">
-            &copy; {new Date().getFullYear()} DOLCI Artisan Bakery. All rights reserved.
+            &copy; {new Date().getFullYear()} {t("footer.copyright")}
           </p>
           <div className="flex gap-6">
             <Link href="/privacy" className="text-xs text-cream-500 hover:text-gold-400 transition-colors">
-              Privacy Policy
+              {t("footer.privacy")}
             </Link>
             <Link href="/terms" className="text-xs text-cream-500 hover:text-gold-400 transition-colors">
-              Terms of Service
+              {t("footer.terms")}
             </Link>
           </div>
         </div>

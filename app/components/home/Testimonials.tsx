@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
+import { useLocale } from "@/lib/useLocale";
 import type { Testimonial } from "@/data/types";
 
 interface TestimonialsProps {
@@ -26,6 +27,7 @@ function StarRating({ rating }: { rating: number }) {
 export default function Testimonials({ testimonials }: TestimonialsProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const { t, localized } = useLocale();
 
   return (
     <section ref={ref} className="section-padding bg-cream-100">
@@ -36,9 +38,9 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <span className="text-gold-500 font-script text-lg">Testimonials</span>
+          <span className="text-gold-500 font-script text-lg">{t("testimonials.sectionLabel")}</span>
           <h2 className="heading-lg text-chocolate-800 mt-1">
-            What Our Customers Say
+            {t("testimonials.title")}
           </h2>
         </motion.div>
 
@@ -57,17 +59,17 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
               </span>
 
               <p className="text-chocolate-600 text-sm leading-relaxed mb-4">
-                {testimonial.text}
+                {localized(testimonial, "text")}
               </p>
 
               <div className="flex items-center justify-between pt-4 border-t border-cream-200">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center text-white font-serif font-bold text-sm">
-                    {testimonial.name.charAt(0)}
+                    {localized(testimonial, "name").charAt(0)}
                   </div>
                   <div>
                     <p className="font-medium text-sm text-chocolate-800">
-                      {testimonial.name}
+                      {localized(testimonial, "name")}
                     </p>
                     <p className="text-xs text-chocolate-400">
                       {testimonial.date}
