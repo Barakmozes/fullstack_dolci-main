@@ -7,7 +7,7 @@ mongoose.set("strictQuery", false);
 // legacy DB_USER / DB_PASS pair with a hardcoded cluster hostname.
 const URI =
   process.env.MONGODB_URI ||
-  `mongodb+srv://${config.db_user}:${config.db_pass}@mozesdatab.26qfwhe.mongodb.net/dolci`;
+  `mongodb+srv://${config.db_user}:${config.db_pass}@mozesdatab.26qfwhe.mongodb.net/`;
 
 mongoose
   .connect(URI, {
