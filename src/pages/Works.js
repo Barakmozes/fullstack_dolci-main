@@ -2,7 +2,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { API_URL, doApiGet } from "../services/apiService";
 import PagesBtns from "../components/general/pagesBtns";
 import { TfiShoppingCart } from "react-icons/tfi";
@@ -17,22 +17,7 @@ function AppWorks() {
   let currentPage = Number(query.get("page"));
  
 
-  useEffect(() => {
-    doApi();
-    doApiPage();
-  }, [query]);
-
-  useEffect(() => {
-    doApi_companies();
-  }, []);
-
-  useEffect(() => {
-    if (selectedCompany>0) {
-      filterAndSortData(selectedCompany);
-    }
-  }, [selectedCompany]);
-
-  const doApi = async () => {
+  const doApi = useCallback(async () => {
     const page = query.get("page") || 1;
     const url = API_URL + "/devices?page=" + page;
 
@@ -42,9 +27,9 @@ function AppWorks() {
     } catch (error) {
       // error handled silently
     }
-  };
+  }, [query]);
 
-  const doApiPage = async () => {
+  const doApiPage = useCallback(async () => {
     try {
       const url = API_URL + "/devices/count";
       const response = await doApiGet(url);
@@ -53,9 +38,9 @@ function AppWorks() {
     } catch (err) {
       // error handled silently
     }
-  };
+  }, []);
 
-  const doApi_companies = async () => {
+  const doApi_companies = useCallback(async () => {
     try {
       const url = API_URL + "/companies";
       const data = await doApiGet(url);
@@ -63,10 +48,35 @@ function AppWorks() {
     } catch (error) {
       // error handled silently
     }
-  };
+  }, []);
 
-  
+  const filterAndSortData = useCallback(async (companyId) => {
+    try {
+      const page = totalProduct;
+    const url = API_URL + "/devices?perPage="+page;
+      const data = await doApiGet(url);
+      const companyIdStr = companyId.toString();
+      let ar_flter=[...data.filter(item => item.company_id ===companyIdStr )];
+      setAr(ar_flter);
+    } catch (error) {
+      // error handled silently
+    }
+  }, [totalProduct]);
 
+  useEffect(() => {
+    doApi();
+    doApiPage();
+  }, [doApi, doApiPage]);
+
+  useEffect(() => {
+    doApi_companies();
+  }, [doApi_companies]);
+
+  useEffect(() => {
+    if (selectedCompany>0) {
+      filterAndSortData(selectedCompany);
+    }
+  }, [selectedCompany, filterAndSortData]);
 
 
   const handleSelectChange = (e) => {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 import { API_URL, doApiGet, doApiMethod } from '../../services/apiService';
 import PagesBtns from '../../components/general/pagesBtns';
@@ -11,11 +11,7 @@ export default function DevicesAdminList() {
   const [query] = useSearchParams();
   const nav = useNavigate();
 
-  useEffect(() => {
-    doApi();
-  }, [query])
-
-  const doApi = async () => {
+  const doApi = useCallback(async () => {
     const page = query.get("page") || 1;
     const url = API_URL + "/devices?page=" + page;
 
@@ -26,7 +22,11 @@ export default function DevicesAdminList() {
     catch (error) {
       // error handled silently
     }
-  }
+  }, [query])
+
+  useEffect(() => {
+    doApi();
+  }, [doApi])
 
   const onDelClick = async (_delId) => {
     if (window.confirm("Delete device?")) {

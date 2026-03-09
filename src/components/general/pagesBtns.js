@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { Link } from 'react-router-dom';
 import { doApiGet } from '../../services/apiService';
 
@@ -9,11 +9,7 @@ export default function PagesBtns(props) {
   // 2-> linkTo -> link with the page number
   // 3-> cssClass of the buttons
 
-  useEffect(() => {
-    doApi();
-  },[])
-
-  const doApi = async() => {
+  const doApi = useCallback(async() => {
     try{
       const url = props.apiUrl;
       const data = await doApiGet(url);
@@ -22,7 +18,11 @@ export default function PagesBtns(props) {
     catch(err){
       // error handled silently
     }
-  }
+  }, [props.apiUrl])
+
+  useEffect(() => {
+    doApi();
+  },[doApi])
 
   return (
 

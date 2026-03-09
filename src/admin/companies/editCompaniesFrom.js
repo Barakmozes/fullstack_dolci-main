@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { useForm } from "react-hook-form"
 import { useNavigate,useParams } from 'react-router-dom';
 import { API_URL, doApiGet, doApiMethod } from '../../services/apiService';
@@ -13,11 +13,7 @@ export default function EditCompaniForm() {
   const [select_ar,setSelectAr] = useState([])
   const params = useParams();
 
-  useEffect(() => {
-    doApi();
-  },[])
-
-  const doApi = async() => {
+  const doApi = useCallback(async() => {
     try {
       const url = API_URL + "/companies";
       const data = await doApiGet(url);
@@ -29,7 +25,11 @@ export default function EditCompaniForm() {
     } catch (error) {
       toast.error("Failed to load company data");
     }
-  }
+  }, [params])
+
+  useEffect(() => {
+    doApi();
+  },[doApi])
 
   const onSubForm = (_bodyData) => {
     doApiEdit(_bodyData)

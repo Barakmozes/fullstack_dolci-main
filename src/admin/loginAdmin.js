@@ -21,7 +21,7 @@ export default function LoginAdmin() {
         url:url,
         data:bodyData
       })
-      if(resp.data.role != "admin"){
+      if(resp.data.role !== "admin"){
         return toast.error("You must be admin to login")
       }
       localStorage.setItem(TOKEN_KEY, resp.data.token)

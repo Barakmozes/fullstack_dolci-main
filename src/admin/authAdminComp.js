@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { API_URL, doApiGet } from '../services/apiService';
 import { toast } from 'react-toastify';
@@ -6,16 +6,12 @@ import { toast } from 'react-toastify';
 export default function AuthAdminComp() {
   const nav = useNavigate();
 
-  useEffect(() => {
-    doApi();
-  },[])
-
-  const doApi = async() => {
+  const doApi = useCallback(async() => {
     try {
       const url = API_URL+"/users/checkToken";
       const data = await doApiGet(url);
 
-      if(data.role != "admin"){
+      if(data.role !== "admin"){
         toast.error("You must be admin to access this page");
         nav("/")
       }
@@ -25,7 +21,11 @@ export default function AuthAdminComp() {
       nav("/admin")
     }
 
-  }
+  }, [nav])
+
+  useEffect(() => {
+    doApi();
+  },[doApi])
 
   return (
     <React.Fragment></React.Fragment>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { Container } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
 import { API_URL, doApiGet, TOKEN_KEY } from "../services/apiService";
@@ -14,15 +14,7 @@ const PurchasePage = () => {
   const params = useParams();
   const KEY_LOCAL = "todo_local";
 
-  useEffect(() => {
-    doApi();
-    const storedTasks = localStorage[KEY_LOCAL];
-    if (storedTasks) {
-      setTasks(JSON.parse(storedTasks));
-    }
-  }, []);
-
-  const doApi = async () => {
+  const doApi = useCallback(async () => {
     try {
       const urlDevice = `${API_URL}/devices/single/${params.id}`;
       const dataDevice = await doApiGet(urlDevice);
@@ -30,7 +22,15 @@ const PurchasePage = () => {
     } catch (error) {
       // error handled silently
     }
-  };
+  }, [params.id]);
+
+  useEffect(() => {
+    doApi();
+    const storedTasks = localStorage[KEY_LOCAL];
+    if (storedTasks) {
+      setTasks(JSON.parse(storedTasks));
+    }
+  }, [doApi]);
 
   const addTask = (itemTask) => {
     let newTasks = Array.isArray(tasks) ? [...tasks] : [];
@@ -169,16 +169,7 @@ const Cart = ({ tasks, removeSingleTask }) => {
 
   const safeTasks = Array.isArray(tasks) ? tasks : [];
 
-  useEffect(() => {
-    const discount = calculateDiscount();
-    setTokenDiscount(discount);
-  }, [tasks]); // Recalculate discount when tasks change
-
-  const calculateTotalQuantity = () => {
-    return safeTasks.reduce((acc, item) => acc + item.AvailabilityStatus, 0);
-  };
-
-  const calculateDiscount = () => {
+  const calculateDiscount = useCallback(() => {
     if (localStorage[TOKEN_KEY]) {
       const totalBeforeDiscount = safeTasks.reduce((acc, item) => {
         return (
@@ -188,6 +179,15 @@ const Cart = ({ tasks, removeSingleTask }) => {
       return totalBeforeDiscount * 0.05; // 5% discount
     }
     return 0;
+  }, [safeTasks]);
+
+  useEffect(() => {
+    const discount = calculateDiscount();
+    setTokenDiscount(discount);
+  }, [calculateDiscount]); // Recalculate discount when tasks change
+
+  const calculateTotalQuantity = () => {
+    return safeTasks.reduce((acc, item) => acc + item.AvailabilityStatus, 0);
   };
 
   const calculateTotal = () => {
