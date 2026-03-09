@@ -83,23 +83,6 @@ function AppWorks() {
     setSelectedCompany(e.target.value);
   };
 
-  const filterAndSortData = async (companyId) => {
-    try {
-      const page = totalProduct;
-    const url = API_URL + "/devices?perPage="+page;
-      const data = await doApiGet(url);
-      const companyIdStr = companyId.toString();
-      let ar_flter=[...data.filter(item => item.company_id ===companyIdStr )];
-      setAr(ar_flter);
-    } catch (error) {
-      // error handled silently
-    }
-  };
-
-  
-  
-  
-  
 
   return (
     <section id="works" className="block works-block">
