@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "buildCommand": "npm run build",
+  "outputDirectory": "build",
+  "rewrites": [
+    { "source": "/users/:path*", "destination": "/api" },
+    { "source": "/companies/:path*", "destination": "/api" },
+    { "source": "/devices/:path*", "destination": "/api" },
+    { "source": "/api/health", "destination": "/api" }
+  ]
+}

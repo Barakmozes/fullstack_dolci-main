@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__Desktop_Commander__read_file",
+      "Bash(wc -l /c/Users/barakm/Desktop/MyProject/fullstack_dolci-main/src/**/*.js /c/Users/barakm/Desktop/MyProject/fullstack_dolci-main/src/**/*.css)"
+    ]
+  }
+}
